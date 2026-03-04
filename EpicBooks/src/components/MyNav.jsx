@@ -1,6 +1,16 @@
-function MyNav() {
+import { useContext } from 'react'
+import { ThemeContext } from '../context/ThemeContext'
+
+function MyNav({ searchValue, onSearchChange }) {
+  const { theme, toggleTheme } = useContext(ThemeContext)
+  const isDark = theme === 'dark'
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <nav
+      className={`navbar navbar-expand-lg shadow-sm ${
+        isDark ? 'navbar-dark bg-black' : 'navbar-light bg-white'
+      }`}
+    >
       <div className="container">
         <a className="navbar-brand" href="#">
           EpicBooks
@@ -34,6 +44,23 @@ function MyNav() {
               </a>
             </li>
           </ul>
+          <form className="d-flex ms-lg-3" role="search">
+            <input
+              type="search"
+              className="form-control"
+              placeholder="Cerca per titolo..."
+              aria-label="Cerca libri"
+              value={searchValue}
+              onChange={(event) => onSearchChange(event.target.value)}
+            />
+          </form>
+          <button
+            type="button"
+            className={`btn ms-2 ${isDark ? 'btn-outline-light' : 'btn-outline-dark'}`}
+            onClick={toggleTheme}
+          >
+            {isDark ? 'Light' : 'Dark'}
+          </button>
         </div>
       </div>
     </nav>
